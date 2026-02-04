@@ -1,0 +1,335 @@
+/* 数据分析页面样式 */
+
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* 图表容器 */
+.charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.chart-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    width: 100%;
+    box-shadow: var(--shadow);
+}
+
+.chart-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.chart-canvas {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+/* 排行榜专用图表容器 */
+.ranking-charts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.ranking-chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.ranking-chart-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.ranking-chart-content {
+    min-height: 400px;
+}
+
+/* 加载指示器 */
+.loading-indicator {
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-indicator p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* 列统计 */
+.column-stats {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.column-stat-item {
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.column-stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.column-stat-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.column-stat-type {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 12px;
+}
+
+.column-stat-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.stat-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-detail-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-detail-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Top记录表格 */
+#topRecordsTable {
+    width: 100%;
+}
+
+#topRecordsTable th {
+    background: var(--bg-hover);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* 组别对比表格 */
+.group-comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.group-comparison-table th,
+.group-comparison-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.group-comparison-table th {
+    background: var(--bg-hover);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.group-comparison-table tr:hover {
+    background: var(--bg-hover);
+}
+
+/* Top玩家表格 */
+#topPlayersTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#topPlayersTable th {
+    background: var(--bg-hover);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#topPlayersTable td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#topPlayersTable tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+#topPlayersTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 筛选控件 */
+.filter-controls {
+    padding: 1rem;
+    background: var(--bg-hover);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.filter-controls .form-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-controls label {
+    white-space: nowrap;
+    font-size: 0.875rem;
+}
+
+.filter-controls select {
+    flex: 1;
+    min-width: 150px;
+}
+
+/* 排名分布 */
+.rank-distribution {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.rank-bucket {
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.rank-bucket-range {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.rank-bucket-count {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .stats-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-canvas {
+        height: 300px;
+    }
+
+    .ranking-chart-content {
+        min-height: 300px;
+    }
+
+    .rank-distribution {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,1212 @@
+/* 漏发名单页面特定样式 */
+
+/* 子页签导航 */
+.tab-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 游戏类型页签 */
+.game-tab-nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.game-tab-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.game-tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.game-tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.config-status {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+/* 榜单配置子页签 */
+.rank-tab-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.rank-tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.rank-tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.rank-tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.rank-tab-content {
+    display: none;
+}
+
+.rank-tab-content.active {
+    display: block;
+}
+
+.reward-table th,
+.reward-table td {
+    white-space: nowrap;
+}
+
+.inner-reward-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+    background: var(--bg-main);
+}
+
+.inner-reward-table th,
+.inner-reward-table td {
+    border: 1px solid var(--border-color);
+    padding: 6px 8px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.fetch-section,
+.filter-section,
+.data-section,
+.resend-section,
+.upload-section,
+.result-section,
+.data-source-section {
+    margin-bottom: 24px;
+}
+
+.message-area {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.message-success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.message-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+}
+
+.message-info {
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-main);
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: var(--text-primary);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-input {
+    padding: 10px 14px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.95em;
+    transition: all 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-textarea {
+    padding: 10px 14px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s;
+    resize: vertical;
+    width: 100%;
+    min-height: 200px;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-hint {
+    margin-top: 8px;
+    padding: 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85em;
+    color: var(--text-secondary);
+}
+
+.form-hint p {
+    margin: 0 0 8px 0;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-hint ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.form-hint li {
+    margin: 4px 0;
+    line-height: 1.5;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #64748b;
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+.data-count {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.table-container {
+    overflow-x: auto;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.data-table thead {
+    position: sticky;
+    top: 0;
+    background: var(--bg-main);
+    z-index: 10;
+}
+
+.data-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    background: var(--bg-main);
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.data-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+.empty-state svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.upload-area-compact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-name {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.resend-result {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.resend-result-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.resend-result-item.success {
+    border-color: var(--success-color);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.resend-result-item.error {
+    border-color: var(--error-color);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-container {
+        max-height: 400px;
+    }
+
+    .tab-nav {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+/* 榜单选择样式 */
+.rank-selection-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rank-selection-item:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary-color);
+}
+
+.rank-selection-item input[type="checkbox"] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.rank-selection-item input[type="checkbox"]:checked + span {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* 奖励明细容器 */
+.reward-detail-container {
+    margin-top: 12px;
+}
+
+.reward-detail-item {
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.reward-detail-item h4 {
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+    font-size: 0.95em;
+    font-weight: 600;
+}
+
+.reward-detail-item .reward-table-container {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* 补发结果样式优化 */
+.resend-result-group {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.resend-result-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.resend-result-group-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.resend-result-group-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9em;
+}
+
+.resend-result-group-stats span {
+    color: var(--text-secondary);
+}
+
+.resend-result-group-stats strong {
+    color: var(--text-primary);
+}
+
+.resend-result-group-stats .success-count {
+    color: var(--success-color);
+}
+
+.resend-result-group-stats .fail-count {
+    color: var(--error-color);
+}
+
+/* 补发结果表格 */
+.resend-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.resend-result-table th,
+.resend-result-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.resend-result-table th {
+    background: var(--bg-hover);
+    font-weight: 600;
+    color: var(--text-primary);
+    position: sticky;
+    top: 0;
+}
+
+.resend-result-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+.status-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.status-icon.success {
+    color: var(--success-color);
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.status-icon.fail {
+    color: var(--error-color);
+    background: rgba(244, 67, 54, 0.1);
+}
+
+/* 超级奖表格特殊样式 */
+.super-rank-table {
+    border: 2px solid var(--primary-color);
+}
+
+.super-rank-table th {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* iid选择页签 */
+.iid-tab-nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.iid-tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.iid-tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.iid-tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* 补发页签的榜单类型页签 */
+.resend-rank-tab-nav {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.resend-rank-tab-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: -2px;
+}
+
+.resend-rank-tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.resend-rank-tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* 补发页签步骤样式 */
+.resend-step-1,
+.resend-step-2 {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 12px;
+}
+
+.iid-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.iid-tab {
+    padding: 8px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.iid-tab:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.iid-tab.active {
+    border-color: #3b82f6;
+    background: #3b82f6;
+    color: white;
+}
+
+.current-iid {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+.data-source-group {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.radio-group {
+    display: flex;
+    gap: 16px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.upload-area {
+    margin-top: 12px;
+    padding: 12px;
+    background: white;
+    border: 1px dashed #d1d5db;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 主内容区 - 三栏布局 */
+.resend-main-content {
+    display: grid;
+    grid-template-columns: 25% 45% 30%;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.resend-panel {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* 允许flex子元素收缩 */
+}
+
+.resend-panel:first-child {
+    /* 左侧面板：确保奖励明细预览有足够空间 */
+    min-height: 600px;
+}
+
+.panel-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* 左侧: 榜单类型选择 */
+.rank-list {
+    list-style: none;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
+.rank-item {
+    padding: 10px;
+    margin-bottom: 6px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rank-item:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.rank-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.rank-item.checked {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.btn-select-all {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 8px;
+    font-size: 12px;
+}
+
+/* 奖励明细预览 */
+.reward-preview {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 500px;
+    overflow-y: auto;
+    margin-top: 12px;
+    flex: 1; /* 占据剩余空间 */
+    min-height: 0; /* 允许flex收缩 */
+}
+
+.reward-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.reward-table th,
+.reward-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.reward-table th {
+    background: #f3f4f6;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.reward-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 0;
+}
+
+.reward-items-table td {
+    padding: 4px 8px;
+    border: none;
+    color: #6b7280;
+}
+
+.reward-items-table tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.reward-items {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* 中间: 漏发名单明细 */
+.missing-list-scroll-container {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-top: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+}
+
+.missing-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.missing-list-table th,
+.missing-list-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.missing-list-table th {
+    background: #f3f4f6;
+    font-weight: 600;
+    font-size: 13px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.missing-list-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.list-count {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+/* 确认对话框 */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-dialog {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.confirm-info {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.confirm-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.confirm-info-item:last-child {
+    border-bottom: none;
+}
+
+.confirm-info-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.confirm-info-value {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.confirm-rank-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 8px;
+}
+
+.confirm-rank-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.confirm-rank-item:last-child {
+    border-bottom: none;
+}
+
+.confirm-rank-name {
+    color: var(--text-secondary);
+}
+
+.confirm-rank-count {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-cancel {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: white;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: var(--bg-hover);
+}
+
+.btn-confirm {
+    padding: 8px 16px;
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-confirm:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.send-all-hint {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* 右侧: 补发配置 */
+.resend-panel .form-group {
+    margin-bottom: 16px;
+}
+
+.resend-panel .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.resend-panel .form-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-send {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-send-all {
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+.btn-send-all:hover {
+    background: #059669;
+}
+
+.send-all-hint {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* 补发结果区域 */
+.resend-result-section {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+}
+
+/* 响应式布局 */
+@media (max-width: 1200px) {
+    .resend-main-content {
+        grid-template-columns: 40% 60%;
+    }
+    .resend-panel:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .resend-main-content {
+        grid-template-columns: 1fr;
+    }
+}

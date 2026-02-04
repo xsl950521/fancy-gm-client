@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析 - Redis 数据解析工具</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/analytics.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- 左侧导航栏 -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                    <line x1="9" y1="9" x2="21" y2="9"></line>
+                </svg>
+                <span>数据解析</span>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="/" class="nav-link" data-page="parser">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>数据解析</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/history.html" class="nav-link" data-page="history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>历史记录</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a href="/analytics.html" class="nav-link" data-page="analytics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>数据分析</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/missinglist.html" class="nav-link" data-page="missinglist">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                        <path d="M12 21c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M12 3c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                    </svg>
+                    <span>漏发名单</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m-4.242 0L5.636 17.364m12.728 0l-4.243-4.243m-4.242 0L5.636 6.636"></path>
+                    </svg>
+                    <span>设置</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1>数据分析</h1>
+                <p class="page-description">对解析后的数据进行统计分析和可视化展示</p>
+            </div>
+
+            <!-- 任务选择区域 -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>选择任务</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="jobSelect">选择已完成的任务：</label>
+                        <select id="jobSelect" class="form-control">
+                            <option value="">-- 请选择任务 --</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="sheetGroup" style="display: none;">
+                        <label for="sheetSelect">选择工作表：</label>
+                        <select id="sheetSelect" class="form-control">
+                            <option value="">-- 请选择工作表 --</option>
+                        </select>
+                    </div>
+                    <button id="analyzeBtn" class="btn btn-primary" disabled>开始分析</button>
+                </div>
+            </div>
+
+            <!-- 加载状态 -->
+            <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                <div class="spinner"></div>
+                <p>正在分析数据...</p>
+            </div>
+
+            <!-- 统计概览 -->
+            <div id="overviewSection" class="stats-overview" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalRecords">0</div>
+                        <div class="stat-label">总记录数</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="numericColumns">0</div>
+                        <div class="stat-label">数值列</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔢</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="stringColumns">0</div>
+                        <div class="stat-label">文本列</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="dateColumns">0</div>
+                        <div class="stat-label">日期列</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表区域 -->
+            <div id="chartsSection" style="display: none;">
+                <!-- 排行榜专用分析 -->
+                <div id="rankingAnalysisSection" style="display: none;">
+                    <!-- 按组别统计 -->
+                    <div class="card ranking-chart-card" id="byGroupCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>按组别统计</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table id="byGroupTable" class="group-comparison-table">
+                                    <thead></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 排名分布 -->
+                    <div class="card ranking-chart-card" id="rankDistributionCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>排名分布</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="rankDistributionContent" class="rank-distribution"></div>
+                            <canvas id="rankDistributionChart" style="margin-top: 2rem;"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 分数分布 -->
+                    <div class="card ranking-chart-card" id="scoreDistributionCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>分数分布</h2>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="scoreDistributionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 按日期统计（日榜） -->
+                    <div class="card ranking-chart-card" id="byDayCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>按日期统计</h2>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="byDayChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 各组别Top玩家 -->
+                    <div class="card ranking-chart-card" id="topByGroupCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>Top 10 玩家</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="filter-controls" style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                                <div class="form-group" style="margin: 0; min-width: 200px;">
+                                    <label for="topGroupSelect" style="margin-right: 0.5rem; font-weight: 600;">组别：</label>
+                                    <select id="topGroupSelect" class="form-control" style="display: inline-block; width: auto; min-width: 150px;">
+                                        <option value="">-- 请选择组别 --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="topDayGroup" style="margin: 0; min-width: 200px; display: none;">
+                                    <label for="topDaySelect" style="margin-right: 0.5rem; font-weight: 600;">日期：</label>
+                                    <select id="topDaySelect" class="form-control" style="display: inline-block; width: auto; min-width: 150px;">
+                                        <option value="">全部日期</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-container">
+                                <table id="topPlayersTable" class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>排名</th>
+                                            <th>玩家</th>
+                                            <th>分数</th>
+                                            <th>日期</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 通用分析（非排行榜数据） -->
+                <div id="generalAnalysisSection" style="display: none;">
+                    <!-- 分布图表 -->
+                    <div class="card" id="distributionCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>数据分布</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="distributionCharts" class="charts-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- 时间序列图表 -->
+                    <div class="card" id="timeSeriesCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>时间趋势</h2>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="timeSeriesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Top记录 -->
+                    <div class="card" id="topRecordsCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>Top 记录</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table id="topRecordsTable" class="data-table">
+                                    <thead></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 列统计详情 -->
+                    <div class="card" id="columnStatsCard" style="display: none;">
+                        <div class="card-header">
+                            <h2>列统计详情</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="columnStatsContent" class="column-stats"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/js/analytics.js"></script>
+</body>
+</html>

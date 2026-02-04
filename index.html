@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redis 数据解析工具</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- 左侧导航栏 -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                    <line x1="9" y1="9" x2="21" y2="9"></line>
+                </svg>
+                <span>数据解析</span>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="#" class="nav-link" data-page="parser">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>数据解析</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/history.html" class="nav-link" data-page="history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>历史记录</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/analytics.html" class="nav-link" data-page="analytics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>数据分析</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/missinglist.html" class="nav-link" data-page="missinglist">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                        <path d="M12 21c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M12 3c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                    </svg>
+                    <span>漏发名单</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m-4.242 0L5.636 17.364m12.728 0l-4.243-4.243m-4.242 0L5.636 6.636"></path>
+                    </svg>
+                    <span>设置</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- 页面标题 -->
+            <header class="page-header">
+                <h1>数据解析</h1>
+                <p class="page-subtitle">批量上传文件，解析后导出为 Excel 或 CSV 格式</p>
+            </header>
+
+            <!-- 文件上传区域（紧凑版） -->
+            <section class="upload-section">
+                <div class="upload-area-compact" id="uploadArea">
+                    <svg class="upload-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span class="upload-text">拖拽文件或 <span class="upload-link">点击选择</span></span>
+                    <input type="file" id="fileInput" multiple accept=".txt" style="display: none;">
+                </div>
+
+                <!-- 文件列表 -->
+                <div class="file-list-compact" id="fileList"></div>
+            </section>
+
+            <!-- 参数配置区域 -->
+            <section class="config-section">
+                <div class="config-row">
+                    <div class="config-item">
+                        <label for="mode">处理模式</label>
+                        <select id="mode" class="select-input">
+                            <option value="all">全部</option>
+                            <option value="daily">日榜</option>
+                            <option value="total">总榜</option>
+                            <option value="reward">奖励记录</option>
+                            <option value="mail">邮件日志</option>
+                            <option value="month">月榜</option>
+                            <option value="clubpid">俱乐部PID</option>
+                        </select>
+                    </div>
+                    <div class="config-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="archive" class="checkbox-input">
+                            <span>归档源文件</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 操作按钮 -->
+            <section class="action-section">
+                <button id="processBtn" class="btn btn-primary" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <span>开始解析</span>
+                </button>
+                <button id="clearBtn" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    <span>清空</span>
+                </button>
+                <div class="download-dropdown">
+                    <button id="downloadBtn" class="btn btn-success" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>下载</span>
+                        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu" id="downloadMenu">
+                        <a href="#" class="dropdown-item" data-format="excel">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="3" x2="9" y2="21"></line>
+                                <line x1="9" y1="9" x2="21" y2="9"></line>
+                            </svg>
+                            <span>下载为 Excel</span>
+                        </a>
+                        <a href="#" class="dropdown-item" data-format="csv">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <span>下载为 CSV</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 进度显示 -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <div class="progress-header">
+                    <h3>解析进度</h3>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">准备中...</p>
+            </section>
+
+            <!-- 结果展示区域 -->
+            <section class="result-section" id="resultSection" style="display: none;">
+                <div class="result-header">
+                    <h3>解析结果</h3>
+                </div>
+                
+                <!-- 工作表切换 -->
+                <div class="sheet-tabs" id="sheetTabs"></div>
+
+                <!-- 统计信息 -->
+                <div class="stats" id="stats"></div>
+
+                <!-- 筛选区域 -->
+                <div class="filter-section" id="filterSection" style="display: none;">
+                    <div class="filter-header">
+                        <div class="filter-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                            </svg>
+                            <span>数据筛选</span>
+                        </div>
+                        <button class="filter-clear" id="clearFilters">清除筛选</button>
+                    </div>
+                    <div class="filter-grid" id="filterGrid"></div>
+                </div>
+
+                <!-- 数据表格（带滚动框） -->
+                <div class="table-wrapper">
+                    <div class="table-scroll">
+                        <table class="data-table" id="dataTable">
+                            <thead id="tableHead"></thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 分页 -->
+                <div class="pagination" id="pagination"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

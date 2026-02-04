@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漏发名单 - Redis 数据解析工具</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/missinglist.css">
+</head>
+<body>
+    <!-- 左侧导航栏 -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                    <line x1="9" y1="9" x2="21" y2="9"></line>
+                </svg>
+                <span>数据解析</span>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="/" class="nav-link" data-page="parser">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>数据解析</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/history.html" class="nav-link" data-page="history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>历史记录</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/analytics.html" class="nav-link" data-page="analytics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>数据分析</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a href="/missinglist.html" class="nav-link" data-page="missinglist">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                        <path d="M12 21c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M12 3c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                    </svg>
+                    <span>漏发名单</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m-4.242 0L5.636 17.364m12.728 0l-4.243-4.243m-4.242 0L5.636 6.636"></path>
+                    </svg>
+                    <span>设置</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- 页面标题 -->
+            <header class="page-header">
+                <h1>漏发名单</h1>
+                <p class="page-subtitle">名单拉取与奖励补发</p>
+            </header>
+
+            <!-- 子页签导航 -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="fetch">名单拉取</button>
+                <button class="tab-btn" data-tab="config">榜单配置</button>
+                <button class="tab-btn" data-tab="resend">奖励补发</button>
+            </div>
+
+            <!-- 名单拉取页签内容 -->
+            <div class="tab-content active" id="tabFetch">
+                <!-- 拉取配置区域 -->
+                <section class="fetch-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>API配置</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="baseUrl">请求地址</label>
+                                    <input type="text" id="baseUrl" class="form-input" 
+                                           value="http://172.20.192.21:20000/gm" 
+                                           placeholder="http://172.20.192.21:20000/gm">
+                                </div>
+                                <div class="form-group">
+                                    <label for="timestamp">时间戳</label>
+                                    <input type="text" id="timestamp" class="form-input" 
+                                           value="123456" 
+                                           placeholder="时间戳">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sign">签名</label>
+                                    <input type="text" id="sign" class="form-input" 
+                                           value="9349de7c23c8f4295a837103a25d58fa" 
+                                           placeholder="签名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="iid">IID</label>
+                                    <select id="iid" class="form-input">
+                                        <option value="bydr" selected>bydr</option>
+                                        <option value="dsc">dsc</option>
+                                        <option value="cqsj">cqsj</option>
+                                        <option value="yxds">yxds</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="messageArea" class="message-area" style="display: none;"></div>
+                            <div class="form-actions">
+                                <button id="fetchBtn" class="btn btn-primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <span>拉取数据</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 筛选区域 -->
+                <section class="filter-section" id="filterSection" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>数据筛选</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="filterHid">HID</label>
+                                    <input type="number" id="filterHid" class="form-input" 
+                                           placeholder="留空表示不过滤">
+                                </div>
+                                <div class="form-group">
+                                    <label for="filterIid">IID</label>
+                                    <input type="text" id="filterIid" class="form-input" 
+                                           placeholder="留空表示不过滤">
+                                </div>
+                                <div class="form-group">
+                                    <label for="filterOn">ON (时间戳)</label>
+                                    <input type="number" id="filterOn" class="form-input" 
+                                           placeholder="留空表示不过滤">
+                                </div>
+                                <div class="form-group">
+                                    <label for="filterRankType">榜单类型</label>
+                                    <select id="filterRankType" class="form-input">
+                                        <option value="">全部</option>
+                                        <option value="false">个人榜</option>
+                                        <option value="true">公会榜</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="filterRankCategory">总榜/日榜</label>
+                                    <select id="filterRankCategory" class="form-input">
+                                        <option value="">全部</option>
+                                        <option value="daily">日榜</option>
+                                        <option value="total">总榜</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button id="filterBtn" class="btn btn-secondary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="m21 21-4.35-4.35"></path>
+                                    </svg>
+                                    <span>应用筛选</span>
+                                </button>
+                                <button id="resetFilterBtn" class="btn btn-outline">
+                                    <span>重置筛选</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 数据展示区域 -->
+                <section class="data-section" id="dataSection" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3>数据列表</h3>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <span class="data-count" id="dataCount">0 条</span>
+                                    <button id="exportBtn" class="btn btn-success btn-sm">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        <span>导出</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="data-table" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>HID</th>
+                                            <th>IID</th>
+                                            <th>ON</th>
+                                            <th>日期时间</th>
+                                            <th>榜单类型</th>
+                                            <th>Day</th>
+                                            <th>PSID</th>
+                                            <th>Score</th>
+                                            <th>Rank</th>
+                                            <th>Server ID</th>
+                                            <th>Type</th>
+                                            <th>Club ID</th>
+                                            <th>Club Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dataTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 榜单配置页签内容 -->
+            <div class="tab-content" id="tabConfig" style="display: none;">
+                <!-- 榜单配置区域 -->
+                <section class="rank-config-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>榜单配置</h3>
+                            <div class="game-tab-nav" style="margin-top: 12px;">
+                                <button class="game-tab-btn active" data-game="bydr">bydr</button>
+                                <button class="game-tab-btn" data-game="dsc">dsc</button>
+                                <button class="game-tab-btn" data-game="yxds">yxds</button>
+                                <button class="game-tab-btn" data-game="daqiqiu">daqiqiu(cqsj)</button>
+                            </div>
+                            <div id="configStatus" class="config-status"></div>
+                        </div>
+                        <div class="card-body">
+                            <!-- 手动上传Lua配置 -->
+                            <div class="form-group full-width" style="margin-bottom: 16px;">
+                                <label>手动上传Lua配置</label>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <input type="file" id="luaConfigFile" accept=".lua" style="display: none;">
+                                    <button type="button" id="selectLuaFileBtn" class="btn btn-outline btn-sm">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width: 16px; height: 16px;">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="17 8 12 3 7 8"></polyline>
+                                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                                        </svg>
+                                        <span>选择Lua配置文件</span>
+                                    </button>
+                                    <span id="luaFileName" class="file-name" style="flex: 1;">未选择文件</span>
+                                </div>
+                                <div class="form-hint" style="margin-top: 8px;">
+                                    <p>说明：将当前页签游戏类型作为解析类型（bydr/dsc/yxds/daqiqiu）。</p>
+                                </div>
+                            </div>
+
+                            <!-- 榜单配置子页签 -->
+                            <div class="rank-tab-nav">
+                                <button class="rank-tab-btn active" data-rank-tab="daily_person">个人日榜</button>
+                                <button class="rank-tab-btn" data-rank-tab="total_person">个人总榜</button>
+                                <button class="rank-tab-btn" data-rank-tab="daily_club">公会日榜</button>
+                                <button class="rank-tab-btn" data-rank-tab="total_club">公会总榜</button>
+                            </div>
+                            
+                            <!-- 榜单配置内容 -->
+                            <div class="rank-tab-content active" id="rankTabDailyPerson">
+                                <div class="form-group full-width">
+                                    <label>邮件标题</label>
+                                    <input type="text" class="form-input rank-title" data-rank="daily_person" 
+                                           placeholder="个人日榜邮件标题">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>邮件内容</label>
+                                    <textarea class="form-textarea rank-content" data-rank="daily_person" rows="4" 
+                                              placeholder="个人日榜邮件内容"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>奖励详情</label>
+                                    <div class="table-container">
+                                        <table class="data-table reward-table" data-rank="daily_person">
+                                            <thead>
+                                                <tr>
+                                                    <th>排名上限</th>
+                                                    <th>奖励明细</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>超级奖奖励详情</label>
+                                    <div class="table-container">
+                                        <table class="data-table reward-table" data-rank="daily_person_super">
+                                            <thead>
+                                                <tr>
+                                                    <th>排名上限</th>
+                                                    <th>奖励明细</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-tab-content" id="rankTabTotalPerson" style="display: none;">
+                                <div class="form-group full-width">
+                                    <label>邮件标题</label>
+                                    <input type="text" class="form-input rank-title" data-rank="total_person" 
+                                           placeholder="个人总榜邮件标题">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>邮件内容</label>
+                                    <textarea class="form-textarea rank-content" data-rank="total_person" rows="4" 
+                                              placeholder="个人总榜邮件内容"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>奖励详情</label>
+                                    <div class="table-container">
+                                        <table class="data-table reward-table" data-rank="total_person">
+                                            <thead>
+                                                <tr>
+                                                    <th>排名上限</th>
+                                                    <th>奖励明细</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>超级奖奖励详情</label>
+                                    <div class="table-container">
+                                        <table class="data-table reward-table" data-rank="total_person_super">
+                                            <thead>
+                                                <tr>
+                                                    <th>排名上限</th>
+                                                    <th>奖励明细</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-tab-content" id="rankTabDailyClub" style="display: none;">
+                                <div class="form-group full-width">
+                                    <label>邮件标题</label>
+                                    <input type="text" class="form-input rank-title" data-rank="daily_club" 
+                                           placeholder="公会日榜邮件标题">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>邮件内容</label>
+                                    <textarea class="form-textarea rank-content" data-rank="daily_club" rows="4" 
+                                              placeholder="公会日榜邮件内容"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>奖励详情</label>
+                                    <div class="table-container">
+                                        <table class="data-table reward-table" data-rank="daily_club">
+                                            <thead>
+                                                <tr>
+                                                    <th>排名上限</th>
+                                                    <th>奖励明细</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="rank-tab-content" id="rankTabTotalClub" style="display: none;">
+                                <div class="form-group full-width">
+                                    <label>邮件标题</label>
+                                    <input type="text" class="form-input rank-title" data-rank="total_club" 
+                                           placeholder="公会总榜邮件标题">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>邮件内容</label>
+                                    <textarea class="form-textarea rank-content" data-rank="total_club" rows="4" 
+                                              placeholder="公会总榜邮件内容"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>奖励详情</label>
+                                    <div class="table-container">
+                                        <table class="data-table reward-table" data-rank="total_club">
+                                            <thead>
+                                                <tr>
+                                                    <th>排名上限</th>
+                                                    <th>奖励明细</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-hint" style="margin-top: 16px; padding: 12px; background: var(--bg-main); border-radius: 6px;">
+                                <p style="margin: 0; color: var(--text-secondary); font-size: 0.9em;">
+                                    <strong>提示：</strong>不提供新的配置文件，则使用当前默认配置。默认配置从项目内 <code>config/lua</code> 目录获取，文件名格式为 <code>iid年月日.lua</code>（例如：<code>bydr20251104.lua</code>），取最新日期的文件。如果项目内不存在，则从 <code>D:\workSpace\Data\Excel\Activity\Lua</code> 路径获取。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 奖励补发页签内容 -->
+            <div class="tab-content" id="tabResend" style="display: none;">
+                <!-- 步骤1: 选择游戏类型 (iid) -->
+                <div class="resend-step-1">
+                    <div class="step-title">步骤1: 选择游戏类型 (iid)</div>
+                    <div class="iid-tabs">
+                        <div class="iid-tab active" data-iid="bydr">bydr</div>
+                        <div class="iid-tab" data-iid="dsc">dsc</div>
+                        <div class="iid-tab" data-iid="yxds">yxds</div>
+                        <div class="iid-tab" data-iid="daqiqiu">daqiqiu(cqsj)</div>
+                    </div>
+                    <div class="current-iid">当前选中: <span id="currentResendIidDisplay">bydr</span></div>
+                </div>
+
+                <!-- 步骤2: 选择数据源 -->
+                <div class="resend-step-2">
+                    <div class="step-title">步骤2: 选择数据源</div>
+                    <div class="data-source-group">
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="dataSource" id="dataSourceExcel" value="excel" checked>
+                                <label for="dataSourceExcel">上传Excel文件</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="dataSource" id="dataSourceFetched" value="fetched">
+                                <label for="dataSourceFetched">使用拉取的漏发名单</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Excel上传区域 -->
+                    <div class="upload-area" id="excelUploadArea">
+                        <input type="file" id="excelFile" accept=".xlsx,.xls" style="display: none;">
+                        <button id="selectFileBtn" class="btn">选择文件</button>
+                        <span id="fileName" style="color: #6b7280; font-size: 14px;">未选择文件</span>
+                        <div id="uploadMessageArea" class="message-area" style="display: none; margin-top: 8px;"></div>
+                    </div>
+                    <!-- 漏发名单选择区域 -->
+                    <div id="fetchedDataArea" style="display: none; margin-top: 12px;">
+                        <div style="padding: 12px; background: white; border: 1px solid #e5e7eb; border-radius: 6px;">
+                            <div id="fetchedDataInfo" style="color: #6b7280; font-size: 14px;">
+                                <span id="fetchedDataCount">0</span> 条数据可用
+                            </div>
+                            <button id="useFetchedDataBtn" class="btn btn-primary btn-sm" style="margin-top: 8px;" disabled>
+                                使用当前筛选的数据
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 主内容区: 三栏布局 -->
+                <div class="resend-main-content">
+                    <!-- 左侧: 榜单类型选择 + 奖励明细预览 -->
+                    <div class="resend-panel">
+                        <div class="panel-title">选择榜单类型</div>
+                        <ul class="rank-list">
+                            <li class="rank-item">
+                                <input type="checkbox" class="resend-rank-checkbox" value="daily_person" data-rank-name="个人日榜" id="resendRankDailyPerson">
+                                <span>个人日榜</span>
+                            </li>
+                            <li class="rank-item">
+                                <input type="checkbox" class="resend-rank-checkbox" value="total_person" data-rank-name="个人总榜" id="resendRankTotalPerson">
+                                <span>个人总榜</span>
+                            </li>
+                            <li class="rank-item">
+                                <input type="checkbox" class="resend-rank-checkbox" value="daily_club" data-rank-name="公会日榜" id="resendRankDailyClub">
+                                <span>公会日榜</span>
+                            </li>
+                            <li class="rank-item">
+                                <input type="checkbox" class="resend-rank-checkbox" value="total_club" data-rank-name="公会总榜" id="resendRankTotalClub">
+                                <span>公会总榜</span>
+                            </li>
+                            <li class="rank-item">
+                                <input type="checkbox" class="resend-rank-checkbox" value="daily_person_super" data-rank-name="个人日榜超级奖" id="resendRankDailyPersonSuper">
+                                <span>个人日榜超级奖</span>
+                            </li>
+                            <li class="rank-item">
+                                <input type="checkbox" class="resend-rank-checkbox" value="total_person_super" data-rank-name="个人总榜超级奖" id="resendRankTotalPersonSuper">
+                                <span>个人总榜超级奖</span>
+                            </li>
+                        </ul>
+                        <button id="selectAllRanksBtn" class="btn btn-select-all">一键选择所有</button>
+
+                        <div class="panel-title" style="margin-top: 20px;">奖励明细预览</div>
+                        <div id="resendRewardDetailContainer" class="reward-preview">
+                            <!-- 奖励明细将动态生成 -->
+                        </div>
+                    </div>
+
+                    <!-- 中间: 漏发名单明细 -->
+                    <div class="resend-panel">
+                        <div class="panel-title">漏发名单明细 <span id="resendMissingListTitle" style="color: #6b7280; font-weight: normal;">(个人日榜)</span></div>
+                        <div id="resendMissingListCount" class="list-count">共 0 条</div>
+                        <div class="missing-list-scroll-container">
+                            <table class="missing-list-table">
+                                <thead>
+                                    <tr>
+                                        <th>PSID</th>
+                                        <th>排名</th>
+                                        <th>积分</th>
+                                        <th>公会ID</th>
+                                        <th>日期时间</th>
+                                        <th>HID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resendMissingListBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; color: #6b7280; padding: 40px;">
+                                            请选择榜单类型查看漏发名单
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 右侧: 补发配置 -->
+                    <div class="resend-panel">
+                        <div class="panel-title">补发配置</div>
+                        <div class="form-group">
+                            <label class="form-label">补发接口URL</label>
+                            <input type="text" id="resendUrl" class="form-input" value="http://172.20.192.21:20000/gm">
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="useBatchSend" checked>
+                                <label for="useBatchSend" class="form-label" style="margin: 0;">使用批量发送（一条请求发送所有玩家）</label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="groupTypeContainer" style="display: none;">
+                            <label class="form-label">Group类型（仅非批量模式）</label>
+                            <select id="resendGroup" class="form-input">
+                                <option value="users">users（玩家ID）</option>
+                                <option value="usernames">usernames（玩家名称）</option>
+                                <option value="userids">userids（玩家UID）</option>
+                                <option value="member">member（公会成员，roleid_list为公会ID）</option>
+                                <option value="all">all（等级范围，lv0-lv9）</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Timestamp</label>
+                            <input type="text" id="resendTimestamp" class="form-input" value="123456">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sign签名</label>
+                            <input type="text" id="resendSign" class="form-input" value="ae3f82244a10fd817ab1223c480c4d34">
+                        </div>
+                        <button id="resendBtn" class="btn btn-primary btn-send">发送补发</button>
+                        <button id="resendAllBtn" class="btn btn-send-all">一键补发所有榜单类型</button>
+                        <div class="send-all-hint">(当前iid: <span id="resendCurrentIidHint">bydr</span> 的所有榜单类型)</div>
+                        <div id="resendMessageArea" class="message-area" style="display: none; margin-top: 12px;"></div>
+                    </div>
+                </div>
+
+                <!-- 底部: 补发结果 -->
+                <div class="resend-result-section" id="resultSection" style="display: none;">
+                    <div class="panel-title">补发结果</div>
+                    <div id="resendResult" class="resend-result">
+                        <!-- 结果将按榜单分组显示 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 确认对话框 -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title">确认补发</div>
+                <button class="modal-close" id="confirmModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirm-info">
+                    <div class="confirm-info-item">
+                        <span class="confirm-info-label">游戏类型 (iid)</span>
+                        <span class="confirm-info-value" id="confirmIid">-</span>
+                    </div>
+                    <div class="confirm-info-item">
+                        <span class="confirm-info-label">榜单类型</span>
+                        <span class="confirm-info-value" id="confirmRankTypes">-</span>
+                    </div>
+                    <div class="confirm-info-item">
+                        <span class="confirm-info-label">补发个数</span>
+                        <span class="confirm-info-value" id="confirmCount">-</span>
+                    </div>
+                </div>
+                <div id="confirmRankDetails" style="display: none;">
+                    <div style="font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 8px;">详细统计：</div>
+                    <ul class="confirm-rank-list" id="confirmRankList">
+                        <!-- 动态生成 -->
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="confirmModalCancel">取消</button>
+                <button class="btn-confirm" id="confirmModalConfirm">确认补发</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/missinglist.js"></script>
+</body>
+</html>
